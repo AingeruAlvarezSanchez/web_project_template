@@ -9,7 +9,7 @@ export const authMiddleware = createMiddleware<{
   if (!token) return c.json({ error: 'Unauthorized' }, 401)
 
   try {
-    const payload = await verify(token, process.env.JWT_SECRET!)
+    const payload = await verify(token, process.env.JWT_SECRET!, 'HS256')
     c.set('user', { id: payload.sub as number, email: payload.email as string })
     await next()
   } catch {
